@@ -1,0 +1,11 @@
+<h1>Monument List</h1>
+<a href="{% url 'monument_create' %}">Add Monument</a>
+<ul>
+    {% for monument in monuments %}
+    <li>
+        {{ monument.name }} ({{ monument.status }})
+        <a href="{% url 'monument_update' monument.pk %}">Edit</a>
+        <a href="{% url 'monument_delete' monument.pk %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
