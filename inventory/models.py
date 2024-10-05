@@ -11,12 +11,12 @@ STATUS_CHOICES = [
 class Monument(models.Model):
     name = models.CharField(max_length=200)
     category = models.CharField(max_length=100)
-    weight = models.DecimalField(max_digits=10, decimal_places=2)  # in grams
-    length = models.DecimalField(max_digits=10, decimal_places=2)  # in cm
-    width = models.DecimalField(max_digits=10, decimal_places=2)   # in cm
-    height = models.DecimalField(max_digits=10, decimal_places=2)  # in cm
+    weight = models.DecimalField(max_digits=15, decimal_places=2)  # in grams
+    length = models.DecimalField(max_digits=15, decimal_places=2)  # in cm
+    width = models.DecimalField(max_digits=15, decimal_places=2)   # in cm
+    height = models.DecimalField(max_digits=15, decimal_places=2)  # in cm
     quantity = models.IntegerField()
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES)
 
     def __str__(self):
         return f'{self.name} ({self.category})'

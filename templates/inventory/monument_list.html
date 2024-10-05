@@ -1,5 +1,7 @@
 {% extends 'inventory/base.html' %}
 
+{% load monument_filters %}
+
 {% block content %}
 <h1 class="mb-4">Monument List</h1>
 
@@ -19,6 +21,14 @@
                     <strong>Quantity:</strong> {{ monument.quantity }}<br>
                     <strong>Status:</strong> {{ monument.get_status_display }}
                 </p>
+
+                <!-- Progress bar for status -->
+                <div class="progress mb-3">
+                    <div class="progress-bar {% if monument.status == 'owner' %}bg-danger{% elif monument.status == 'polisher' %}bg-warning{% elif monument.status == 'designer' %}bg-info{% elif monument.status == 'in_stock' %}bg-success{% endif %}" role="progressbar" style="width: {{ monument.status|status_percentage }}%;" aria-valuenow="{{ monument.status|status_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                        {{ monument.get_status_display }} ({{ monument.status|status_percentage }}%)
+                    </div>
+                </div>
+
                 <a href="{% url 'monument_update' monument.pk %}" class="btn btn-primary">Edit</a>
                 <!-- Delete Modal Trigger -->
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ monument.pk }}">
