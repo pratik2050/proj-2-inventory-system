@@ -1,11 +1,58 @@
-<h1>Monument List</h1>
-<a href="{% url 'monument_create' %}">Add Monument</a>
-<ul>
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Monument List</h1>
+
+<!-- Add Monument Button -->
+<a href="{% url 'monument_create' %}" class="btn btn-success mb-4">Add Monument</a>
+
+<div class="row">
     {% for monument in monuments %}
-    <li>
-        {{ monument.name }} ({{ monument.status }})
-        <a href="{% url 'monument_update' monument.pk %}">Edit</a>
-        <a href="{% url 'monument_delete' monument.pk %}">Delete</a>
-    </li>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">{{ monument.name }}</h5>
+                <p class="card-text">
+                    <strong>Category:</strong> {{ monument.category }}<br>
+                    <strong>Weight:</strong> {{ monument.weight }} gm<br>
+                    <strong>Dimensions:</strong> {{ monument.length }} x {{ monument.width }} x {{ monument.height }} cm<br>
+                    <strong>Quantity:</strong> {{ monument.quantity }}<br>
+                    <strong>Status:</strong> {{ monument.get_status_display }}
+                </p>
+                <a href="{% url 'monument_update' monument.pk %}" class="btn btn-primary">Edit</a>
+                <!-- Delete Modal Trigger -->
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ monument.pk }}">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal for each monument -->
+    <div class="modal fade" id="deleteModal{{ monument.pk }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ monument.pk }}" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel{{ monument.pk }}">Confirm Delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete "<strong>{{ monument.name }}</strong>"? This action cannot be undone.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <form method="post" action="{% url 'monument_delete' monument.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     {% endfor %}
-</ul>
+</div>
+
+{% endblock %}

@@ -1,6 +1,63 @@
-<h1>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Monument</h1>
-<form method="post">
+{% extends 'inventory/base.html' %}
+
+{% load form_filters %}
+
+{% block content %}
+<h1 class="mb-4">{% if form.instance.pk %}Edit{% else %}Add{% endif %} Monument</h1>
+
+<form method="post" class="needs-validation" novalidate>
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
+    
+    <!-- Display the form fields with Bootstrap styling -->
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="id_name">Monument Name</label>
+            {{ form.name|add_class:"form-control" }}
+            {% if form.name.errors %}
+                <div class="invalid-feedback">
+                    {{ form.name.errors|striptags }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-group col-md-6">
+            <label for="id_category">Category</label>
+            {{ form.category|add_class:"form-control" }}
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="id_weight">Weight (gm)</label>
+            {{ form.weight|add_class:"form-control" }}
+        </div>
+        <div class="form-group col-md-4">
+            <label for="id_length">Length (cm)</label>
+            {{ form.length|add_class:"form-control" }}
+        </div>
+        <div class="form-group col-md-4">
+            <label for="id_width">Width (cm)</label>
+            {{ form.width|add_class:"form-control" }}
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="id_height">Height (cm)</label>
+            {{ form.height|add_class:"form-control" }}
+        </div>
+        <div class="form-group col-md-4">
+            <label for="id_quantity">Quantity</label>
+            {{ form.quantity|add_class:"form-control" }}
+        </div>
+        <div class="form-group col-md-4">
+            <label for="id_status">Status</label>
+            {{ form.status|add_class:"form-control" }}
+        </div>
+    </div>
+
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary mt-3">Save Monument</button>
+    <a href="{% url 'monument_list' %}" class="btn btn-secondary mt-3">Cancel</a>
 </form>
+{% endblock %}
