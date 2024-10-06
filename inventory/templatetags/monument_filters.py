@@ -2,7 +2,6 @@ from django import template
 
 register = template.Library()
 
-# Map statuses to percentages for the progress bar
 STATUS_PROGRESS = {
     'owner': 25,
     'polisher': 50,
